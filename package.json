@@ -1,0 +1,37 @@
+{
+  "name": "eslint-plugin-scd",
+  "version": "1.0.0",
+  "description": "The eslint rules for Specific Component Design",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "private": true,
+  "files": [
+    "README.md",
+    "package.json",
+    "lib"
+  ],
+  "keywords": [
+    "scd",
+    "SCD",
+    "eslint",
+    "Specific Component Design",
+    "specific-component-design"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/eslint": "^7.2.0",
+    "@types/node": "^14.0.12",
+    "@typescript-eslint/eslint-plugin": "^3.2.0",
+    "@typescript-eslint/parser": "^3.2.0",
+    "eslint": "^7.3.0",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.1.0",
+    "typescript": "^3.9.5"
+  },
+  "peerDependencies": {
+    "eslint": ">=5.16.0"
+  }
+}
