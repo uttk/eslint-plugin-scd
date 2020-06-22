@@ -1,7 +1,7 @@
-import { nueElementsSize } from "./rules/nue-elements-size";
+import { NueElementSize } from "./rules/nue-element-size";
 
 export = {
   rules: {
-    "nue-elements-size": nueElementsSize,
+    "nue-elements-size": NueElementSize,
   },
 };
