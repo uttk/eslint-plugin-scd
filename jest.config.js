@@ -3,9 +3,9 @@ module.exports = {
     "^.+\\.ts$": "ts-jest",
   },
 
-  testMatch: ["**/src/**/*.test.ts"],
+  testMatch: ["**/tests/**/*.test.ts"],
 
-  testPathIgnorePatterns: ["/node_modules/", "\\.d\\.ts$", "lib/.*"],
+  testPathIgnorePatterns: ["/node_modules/", "\\.d\\.ts$"],
 
   moduleFileExtensions: ["js", "ts"],
 };

@@ -1,6 +1,6 @@
 import { Rule } from "eslint";
 import { Node } from "estree";
-import { isNueComponent } from "../utils/nue";
+import { isNueComponent } from "../util/nue";
 
 export const nueElementsSize: Rule.RuleModule = {
   create: (context) => {
