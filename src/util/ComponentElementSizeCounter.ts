@@ -11,7 +11,7 @@ interface Options {
 
 export class ComponentElementSizeCounter {
   private counter: number = 0;
-  private error: boolean = false;
+  private errorNode: Node | null = null;
   private currentNode: Node | null = null;
 
   private options: Options;
@@ -20,12 +20,7 @@ export class ComponentElementSizeCounter {
     this.options = options;
   }
 
-  init(node: Node) {
-    this.counter = 0;
-    this.currentNode = node;
-  }
-
-  isSizeOver(): boolean {
+  private isSizeOver(): boolean {
     const { max, min = 0 } = this.options;
 
     this.counter += 1;
@@ -37,11 +32,17 @@ export class ComponentElementSizeCounter {
     return false;
   }
 
+  init(node: Node) {
+    this.counter = 0;
+    this.errorNode = null;
+    this.currentNode = node;
+  }
+
   check() {
-    if (this.error) return;
+    if (this.errorNode === this.currentNode) return;
 
     if (this.currentNode && this.isSizeOver()) {
-      this.error = true;
+      this.errorNode = this.currentNode;
 
       this.options.context.report({
         node: this.currentNode as ESNode,

@@ -1,5 +1,10 @@
 import { RuleTester } from "eslint";
-import { NueElementSize, ErrorMessage } from "@src/rules/nue-element-size";
+import {
+  Option,
+  ErrorMessage,
+  NueElementSize,
+} from "../../../src/rules/nue-element-size";
+import { createComponentCode } from "../../util";
 
 const ruleTester = new RuleTester({
   parserOptions: {
@@ -11,67 +16,35 @@ const ruleTester = new RuleTester({
   },
 });
 
+const option = (value: Partial<Option>) => value;
+const filename = "/src/components/nues/Hello/index.js";
+
 ruleTester.run("nue-element-size", NueElementSize, {
   valid: [
-    { code: `const Nue = () => <div></div>` },
-    { code: `const Nue = () => ( <div> <p>Hello World!</p> </div>)` },
-    { code: `function Nue(){ return ( <div></div> ); }` },
+    { code: createComponentCode({ size: 1 }) },
+    { code: createComponentCode({ size: 2, arrow: true }) },
+    { code: createComponentCode({ size: 8 }) },
     {
-      code: `
-        const Nue = () => (
-          <div>
-            <ul>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </ul>
-          </div>
-        )
-      `,
+      filename,
+      code: createComponentCode({ size: 6, parentTagName: "fragment" }),
     },
   ],
   invalid: [
     {
-      code: `
-        const Nue = () => (
-          <div>
-            <ul>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </ul>
-          </div>
-        )
-      `,
-
+      filename,
       errors: [ErrorMessage],
-
-      filename: "/src/components/nues/Hello/index.js",
+      code: createComponentCode({ size: 8 }),
     },
     {
-      code: `
-        function Nue(){
-          return (
-            <div>
-              <ul>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-              </ul>
-            </div>
-          );
-        }
-      `,
-
+      filename,
       errors: [ErrorMessage],
-
-      filename: "/src/components/nues/Hello/index.js",
+      code: createComponentCode({ size: 8, arrow: true }),
+    },
+    {
+      filename,
+      errors: [ErrorMessage],
+      options: [option({ ignoreFragmentTag: false })],
+      code: createComponentCode({ size: 6, parentTagName: "fragment" }),
     },
   ],
 });
