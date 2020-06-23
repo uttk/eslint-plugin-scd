@@ -1,17 +1,17 @@
-import { BlockStatement } from "estree-jsx";
+import { BlockStatement, CallExpression } from "estree-jsx";
 
-/**
- * @description Verify that the file describes Nue Component
- * @param {string} filePath a source file path to check
- */
 export const isNueComponent = (filePath: string) => {
   return !!filePath.split("/").find((v: string) => v === "nues" || v === "nue");
 };
 
-/**
- * @description Verify that Hook is used
- * @param {BlockStatement} node a BlockStatement Node
- */
+export const isHookFunction = (callExpression: CallExpression) => {
+  const { callee } = callExpression;
+
+  if (callee.type === "Identifier" && callee.name.match(/^use.+/)) {
+    return true;
+  }
+};
+
 export const isUsingHooks = (node: BlockStatement): boolean => {
   const { body } = node;
 
@@ -20,10 +20,16 @@ export const isUsingHooks = (node: BlockStatement): boolean => {
       childNode.type === "ExpressionStatement" &&
       childNode.expression.type === "CallExpression"
     ) {
-      const { callee } = childNode.expression;
-
-      if (callee.type === "Identifier" && callee.name.match(/^use.+/)) {
+      if (isHookFunction(childNode.expression)) {
         return true;
+      }
+    }
+
+    if (childNode.type === "VariableDeclaration") {
+      for (const dec of childNode.declarations) {
+        if (dec.init?.type === "CallExpression" && isHookFunction(dec.init)) {
+          return true;
+        }
       }
     }
   }
@@ -31,10 +37,6 @@ export const isUsingHooks = (node: BlockStatement): boolean => {
   return false;
 };
 
-/**
- * @description Verify it is a Component
- * @param {BlockStatement} node a BlockStatement Node
- */
 export const isComponent = (node: BlockStatement): boolean => {
   const { body } = node;
 
