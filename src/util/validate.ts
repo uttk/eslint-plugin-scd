@@ -39,11 +39,21 @@ export const isComponent = (node: BlockStatement): boolean => {
   const { body } = node;
 
   for (const childNode of body) {
-    if (
-      childNode.type === "ReturnStatement" &&
-      childNode.argument?.type.match("JSX")
-    ) {
-      return true;
+    if (childNode.type === "ReturnStatement") {
+      const { argument } = childNode;
+
+      if (!argument) continue;
+
+      if (argument.type.match("JSX")) {
+        return true;
+      } else if (argument.type === "ConditionalExpression") {
+        if (
+          argument.consequent.type.match("JSX") ||
+          argument.alternate.type.match("JSX")
+        ) {
+          return true;
+        }
+      }
     }
   }
 

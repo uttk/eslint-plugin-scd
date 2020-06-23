@@ -37,6 +37,21 @@ const valid = ([] as RuleTester.ValidTestCase[]).concat(
       },
       {
         filename,
+        code: createComponentCode({
+          size: 1,
+          setReturnValue: (ele) => `bool ? ${ele} : null`,
+        }),
+      },
+      {
+        filename,
+        code: createComponentCode({
+          size: 1,
+          arrow: true,
+          setReturnValue: (ele) => `bool ? ${ele} : null`,
+        }),
+      },
+      {
+        filename,
         code: "() => {}",
       },
       {
@@ -67,6 +82,25 @@ const invalid = ([] as RuleTester.InvalidTestCase[]).concat(
           size: 1,
           arrow: true,
           setFields: () => "useHooks();",
+        }),
+      },
+      {
+        filename,
+        errors: [ErrorMessage],
+        code: createComponentCode({
+          size: 1,
+          setFields: () => "useHooks();",
+          setReturnValue: (ele) => `bool ? ${ele} : null`,
+        }),
+      },
+      {
+        filename,
+        errors: [ErrorMessage],
+        code: createComponentCode({
+          size: 1,
+          arrow: true,
+          setFields: () => "useHooks();",
+          setReturnValue: (ele) => `bool ? ${ele} : null`,
         }),
       },
       {
@@ -103,6 +137,6 @@ const ruleTester = new RuleTester({
 });
 
 ruleTester.run("nue-not-use-hooks", NueNotUseHooks, {
-  valid: valid,
+  valid,
   invalid,
 });

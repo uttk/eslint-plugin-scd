@@ -1,6 +1,6 @@
 import { Rule } from "eslint";
 import { Node } from "estree-jsx";
-import { isNueComponent } from "../util/validate";
+import { isNueComponent, isComponent } from "../util/validate";
 import { ErrorMessages } from "../util/errorMessages";
 import { ComponentElementSizeCounter } from "../util/ComponentElementSizeCounter";
 
@@ -43,23 +43,18 @@ export const NueElementSize: Rule.RuleModule = {
       VariableDeclarator: (node: Node) => {
         if (
           node.type === "VariableDeclarator" &&
-          node.init?.type === "ArrowFunctionExpression"
+          node.init?.type === "ArrowFunctionExpression" &&
+          node.init.body.type === "BlockStatement" &&
+          isComponent(node.init.body)
         ) {
           counter.init(node);
         }
       },
 
       FunctionDeclaration: (node: Node) => {
-        if (node.type !== "FunctionDeclaration") return;
-
-        node.body.body.forEach((node) => {
-          if (
-            node.type === "ReturnStatement" &&
-            node.argument?.type.match("JSX")
-          ) {
-            counter.init(node);
-          }
-        });
+        if (node.type === "FunctionDeclaration" && isComponent(node.body)) {
+          counter.init(node);
+        }
       },
     };
   },

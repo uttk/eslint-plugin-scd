@@ -17,20 +17,27 @@ export const createComponentDefinitionCode = (
 export const createComponentCode = (options: {
   size: number;
   arrow?: boolean;
-  setFields?: () => string;
   tagName?: ElementTagNameMap;
   parentTagName?: keyof ElementTagNameMap | "fragment";
+  setFields?: () => string;
+  setReturnValue?: (element: string) => string;
 }): string => {
   let {
     size,
     arrow,
     setFields = () => "",
+    setReturnValue = (v: string) => v,
     tagName = "div",
     parentTagName = "div",
   } = options;
 
-  if (--size < 0)
-    return createComponentDefinitionCode("void 0", setFields, arrow);
+  if (--size < 0) {
+    return createComponentDefinitionCode(
+      setReturnValue("void 0"),
+      setFields,
+      arrow
+    );
+  }
 
   const elements = new Array(size)
     .fill(0)
@@ -40,7 +47,7 @@ export const createComponentCode = (options: {
   const tag = parentTagName === "fragment" ? "" : parentTagName;
 
   return createComponentDefinitionCode(
-    `<${tag}>${elements}</${tag}>`,
+    setReturnValue(`<${tag}>${elements}</${tag}>`),
     setFields,
     arrow
   );
