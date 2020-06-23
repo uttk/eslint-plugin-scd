@@ -21,9 +21,9 @@ const filename = "/src/components/nues/Hello/index.js";
 
 ruleTester.run("nue-element-size", NueElementSize, {
   valid: [
-    { code: createComponentCode({ size: 1 }) },
-    { code: createComponentCode({ size: 2, arrow: true }) },
     { code: createComponentCode({ size: 8 }) },
+    { filename, code: createComponentCode({ size: 1 }) },
+    { filename, code: createComponentCode({ size: 2, arrow: true }) },
     {
       filename,
       code: createComponentCode({ size: 6, parentTagName: "fragment" }),
