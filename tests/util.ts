@@ -1,42 +1,71 @@
-export const createComponentDefinitionCode = (
-  elements: string,
-  setFields: () => string,
-  isArrow?: boolean
-) => {
-  return isArrow
-    ? `const Component = () => {
-      ${setFields()}
-      return (${elements})
-    }`
-    : `function Component() { 
-      ${setFields()}
-      return (${elements}) 
-    }`;
+interface DefinitionCodeOption {
+  elements: string;
+  setFields: () => string;
+  setBlock: (block: string, fields: string, elements: string) => string;
+}
+
+export const createComponentDefinitionCode = ({
+  elements,
+  setBlock,
+  setFields,
+}: DefinitionCodeOption) => {
+  const fields = setFields();
+  const block = setBlock(
+    `{ ${fields} return (${elements}) }`,
+    fields,
+    elements
+  );
+
+  return `function Component()${block}`;
 };
 
-export const createComponentCode = (options: {
-  size: number;
+const createArrowComponentDefinitionCode = ({
+  elements,
+  setBlock,
+  setFields,
+}: DefinitionCodeOption) => {
+  const fields = setFields();
+  const block = setBlock(
+    `{ ${fields} return (${elements}) }`,
+    fields,
+    elements
+  );
+
+  return `const Component = () => ${block}`;
+};
+
+type ComponentCodeOption = {
   arrow?: boolean;
-  tagName?: ElementTagNameMap;
+  tagName?: keyof ElementTagNameMap | "fragment";
   parentTagName?: keyof ElementTagNameMap | "fragment";
-  setFields?: () => string;
+  setBlock?: DefinitionCodeOption["setBlock"];
+  setFields?: DefinitionCodeOption["setFields"];
   setReturnValue?: (element: string) => string;
-}): string => {
+} & {
+  size: number;
+};
+
+export const createComponentCode = (options: ComponentCodeOption): string => {
   let {
     size,
     arrow,
-    setFields = () => "",
-    setReturnValue = (v: string) => v,
     tagName = "div",
     parentTagName = "div",
+    setFields = () => "",
+    setReturnValue = (v: string) => v,
+    setBlock = (v) => v,
   } = options;
 
+  let create = arrow
+    ? createArrowComponentDefinitionCode
+    : createComponentDefinitionCode;
+
   if (--size < 0) {
-    return createComponentDefinitionCode(
-      setReturnValue("void 0"),
+    return create({
+      elements: setReturnValue("void 0"),
+      setBlock,
       setFields,
-      arrow
-    );
+    });
   }
 
   const elements = new Array(size)
@@ -45,10 +74,7 @@ export const createComponentCode = (options: {
     .join("");
 
   const tag = parentTagName === "fragment" ? "" : parentTagName;
+  const ele = `<${tag}>${elements}</${tag}>`;
 
-  return createComponentDefinitionCode(
-    setReturnValue(`<${tag}>${elements}</${tag}>`),
-    setFields,
-    arrow
-  );
+  return create({ elements: setReturnValue(ele), setBlock, setFields });
 };
