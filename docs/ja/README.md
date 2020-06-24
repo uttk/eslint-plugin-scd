@@ -39,6 +39,7 @@ module.exports = {
 | :---------------------------------------------: | :---------------------------------------------------: |
 |  [nue-element-size](rules/nue-element-size.md)  |        Nue コンポーネントのサイズを判定します         |
 | [nue-not-use-hooks](rules/nue-not-use-hooks.md) | Nue コンポーネントで Hooks が使われているか判定します |
+| [otem-element-size](rules/otem-element-size.md) |        Otem コンポーネントのサイズを判定します        |
 
 ## 貢献
 
