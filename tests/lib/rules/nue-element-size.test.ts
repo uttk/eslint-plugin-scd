@@ -40,6 +40,28 @@ const valid = ([] as RuleTester.ValidTestCase[]).concat(
           setBlock: (_, __, ele) => `(${ele})`,
         }),
       },
+      {
+        filename,
+        code: createComponentCode({
+          size: isNue ? 5 : 8,
+          setFields: () =>
+            `const A = () => (<div><div /><div /><div /></div>);`,
+        }),
+      },
+      {
+        filename,
+        code: createComponentCode({
+          size: isNue ? 5 : 8,
+          arrow: true,
+          setFields: () =>
+            `const A = () => (<div><div /><div /><div /></div>);`,
+        }),
+      },
+      {
+        filename,
+        options: [option({ max: 10 })],
+        code: createComponentCode({ size: 10 }),
+      },
     ];
   })
 );
