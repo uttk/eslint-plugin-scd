@@ -27,11 +27,7 @@ export class ComponentElementSizeCounter {
   private isSizeOver(log: CountLog): boolean {
     const { max = 0, min = 0 } = this.options;
 
-    if (log.counter > max || log.counter < min) {
-      return true;
-    }
-
-    return false;
+    return log.counter > max || log.counter < min;
   }
 
   private report(log: CountLog) {
@@ -50,12 +46,19 @@ export class ComponentElementSizeCounter {
 
     if (log) {
       log.counter += 1;
-      this.report(log);
     }
   }
 
   close(node: VariableDeclarator | FunctionDeclaration) {
-    this.logs = this.logs.filter((v) => v.parentNode !== node);
+    this.logs = this.logs.filter((log) => {
+      if (log.parentNode === node) {
+        this.report(log);
+
+        return true;
+      }
+
+      return false;
+    });
   }
 
   start(node: VariableDeclarator | FunctionDeclaration) {

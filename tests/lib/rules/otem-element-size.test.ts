@@ -10,15 +10,14 @@ import { isOtemComponent } from "../../../src/util/validate";
 const option = (value: Partial<Option>) => value;
 
 const filenames = [
-  "/src/components/nues/Hello/index.jsx",
-  "/src/components/nue/index.jsx",
+  "/src/components/otems/Hello/index.jsx",
+  "/src/components/otem/index.jsx",
   "/src/index.jsx",
 ];
 
 const valid = ([] as RuleTester.ValidTestCase[]).concat(
   ...filenames.map<RuleTester.ValidTestCase[]>((filename) => {
-    const isOtem = isOtemComponent(filename);
-    const size = isOtem ? 7 : 12;
+    const size = isOtemComponent(filename) ? 7 : 12;
 
     return [
       {
@@ -45,8 +44,7 @@ const valid = ([] as RuleTester.ValidTestCase[]).concat(
         filename,
         code: createComponentCode({
           size,
-          setFields: () =>
-            `const A = () => (<div><div /><div /><div /></div>);`,
+          setFields: () => createComponentCode({ size, arrow: true }) + ";",
         }),
       },
       {
@@ -54,8 +52,7 @@ const valid = ([] as RuleTester.ValidTestCase[]).concat(
         code: createComponentCode({
           size,
           arrow: true,
-          setFields: () =>
-            `const A = () => (<div><div /><div /><div /></div>);`,
+          setFields: () => createComponentCode({ size, arrow: true }) + ";",
         }),
       },
       {
@@ -88,7 +85,7 @@ const invalid = ([] as RuleTester.InvalidTestCase[]).concat(
         filename,
         errors: [ErrorMessage],
         options: [option({ ignoreFragmentTag: false })],
-        code: createComponentCode({ size: 6, parentTagName: "fragment" }),
+        code: createComponentCode({ size: 11, parentTagName: "fragment" }),
       },
       {
         filename,
