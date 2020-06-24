@@ -1,21 +1,29 @@
 import { Node, BlockStatement, CallExpression } from "estree-jsx";
 
-export const isNueComponent = (filePath: string) => {
+export const isNueComponent = (filePath: string): boolean => {
   return !!filePath.split("/").find((v: string) => v === "nues" || v === "nue");
 };
 
-export const isOtemComponent = (filePath: string) => {
+export const isOtemComponent = (filePath: string): boolean => {
   return !!filePath
     .split("/")
     .find((v: string) => v === "otems" || v === "otem");
 };
 
-export const isHookFunction = (callExpression: CallExpression) => {
+export const isPafeComponent = (filePath: string): boolean => {
+  return !!filePath
+    .split("/")
+    .find((v: string) => v === "pafes" || v === "pafe");
+};
+
+export const isHookFunction = (callExpression: CallExpression): boolean => {
   const { callee } = callExpression;
 
   if (callee.type === "Identifier" && callee.name.match(/^use.+/)) {
     return true;
   }
+
+  return false;
 };
 
 export const isUsingHooks = (node: BlockStatement): boolean => {
