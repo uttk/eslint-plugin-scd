@@ -1,5 +1,5 @@
 import { Rule } from "eslint";
-import { Node } from "estree-jsx";
+import { Node, VariableDeclarator, FunctionDeclaration } from "estree-jsx";
 import { ErrorMessages } from "../util/errorMessages";
 import { isOtemComponent, isComponent } from "../util/validate";
 import { ComponentElementSizeCounter } from "../util/ComponentElementSizeCounter";
@@ -25,19 +25,20 @@ export const OtemElementSize: Rule.RuleModule = {
       ...context.options[0],
     };
 
-    const counter = new ComponentElementSizeCounter({ context, ...option });
+    const counter = new ComponentElementSizeCounter({
+      ...option,
+      report: (descriptor) => context.report(descriptor),
+    });
 
     return {
-      JSXOpeningFragment: (node: Node) => {
-        if (node.type === "JSXOpeningFragment" && !option.ignoreFragmentTag) {
+      JSXOpeningFragment: () => {
+        if (!option.ignoreFragmentTag) {
           counter.count();
         }
       },
 
-      JSXOpeningElement: (node: Node) => {
-        if (node.type === "JSXOpeningElement") {
-          counter.count();
-        }
+      JSXOpeningElement: () => {
+        counter.count();
       },
 
       VariableDeclarator: (node: Node) => {
@@ -51,9 +52,7 @@ export const OtemElementSize: Rule.RuleModule = {
       },
 
       "VariableDeclarator:exit": (node: Node) => {
-        if (node.type === "VariableDeclarator") {
-          counter.close(node);
-        }
+        counter.close(node as VariableDeclarator);
       },
 
       FunctionDeclaration: (node: Node) => {
@@ -63,9 +62,7 @@ export const OtemElementSize: Rule.RuleModule = {
       },
 
       "FunctionDeclaration:exit": (node: Node) => {
-        if (node.type === "FunctionDeclaration") {
-          counter.close(node);
-        }
+        counter.close(node as FunctionDeclaration);
       },
     };
   },

@@ -1,12 +1,11 @@
-import { Rule } from "eslint";
 import { Node as ESNode } from "estree";
-import { Node, VariableDeclarator, FunctionDeclaration } from "estree-jsx";
+import { VariableDeclarator, FunctionDeclaration } from "estree-jsx";
 
 interface Options {
   min?: number;
   max?: number;
   message: string;
-  context: Rule.RuleContext;
+  report: (descriptor: { node: ESNode; message: string }) => void;
 }
 
 interface CountLog {
@@ -33,9 +32,7 @@ export class ComponentElementSizeCounter {
   private report(log: CountLog) {
     if (log.error || !this.isSizeOver(log)) return;
 
-    log.error = true;
-
-    this.options.context.report({
+    this.options.report({
       node: log.parentNode,
       message: this.options.message,
     });
@@ -53,11 +50,10 @@ export class ComponentElementSizeCounter {
     this.logs = this.logs.filter((log) => {
       if (log.parentNode === node) {
         this.report(log);
-
-        return true;
+        return false;
       }
 
-      return false;
+      return true;
     });
   }
 
