@@ -46,8 +46,6 @@ module.exports = {
 
 このリポジトリにバグや機能の追加、質問などがありますか？それなら、ぜひ[このファイル参考](CONTRIBUTION.md)にして、貢献してください！
 
-あなたの小さな行動がみんなの大きな利益になります 😊
-
 ## MIT LICENSE
 
 [MIT](LICENSE "LICENSE")
