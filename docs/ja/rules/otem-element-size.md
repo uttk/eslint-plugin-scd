@@ -11,7 +11,7 @@ module.exports = {
   extends: ["plugin:scd/recommended"],
   plugins: ["scd"],
   rules: {
-    "nue-element-size": [
+    "otem-element-size": [
       "error",
       {
         max: Number, // default : 10
@@ -33,11 +33,6 @@ const Otem = () => (
       <li className="3"></li>
       <li className="4"></li>
       <li className="5"></li>
-      <li className="6"></li>
-      <li className="7"></li>
-      <li className="8"></li>
-      <li className="9"></li>
-      <li className="10"></li>
     </ul>
   </div>
 );

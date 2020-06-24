@@ -51,13 +51,13 @@ function useAnyFunc() {
 }
 
 function Nue() {
-  useAnyFunc(); // error
+  useAnyFunc();
 
   return <div>Any</div>;
 }
 
 const Nue = () => {
-  useAnyFunc(); // error
+  useAnyFunc();
 
   return <div>Any</div>;
 };
