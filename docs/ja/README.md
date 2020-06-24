@@ -39,3 +39,15 @@ module.exports = {
 | :---------------------------------------------: | :---------------------------------------------------: |
 |  [nue-element-size](rules/nue-element-size.md)  |        Nue コンポーネントのサイズを判定します         |
 | [nue-not-use-hooks](rules/nue-not-use-hooks.md) | Nue コンポーネントで Hooks が使われているか判定します |
+
+## 貢献
+
+このリポジトリにバグや機能の追加、質問などがありますか？
+
+ぜひ[このファイル参考](CONTRIBUTION.md)にして、私たちに貢献してください！
+
+あなたの小さな行動がみんなの大きな利益になります 😊
+
+## LICENSE
+
+[MIT](LICENSE "LICENSE")

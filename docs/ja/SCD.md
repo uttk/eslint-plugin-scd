@@ -222,7 +222,7 @@ export const BadExamplePage = () => (
 );
 ```
 
-### Module
+## Module
 
 `Module`は、上記のどれにも分類できない **例外的なコンポーネント** を分類します。<br />
 `Module`には明確な規約はありません。自由に設計できます。
