@@ -2,10 +2,10 @@ import { RuleTester } from "eslint";
 import {
   Option,
   ErrorMessage,
-  NueElementSize,
-} from "../../../src/rules/nue-element-size";
+  OtemElementSize,
+} from "../../../src/rules/otem-element-size";
 import { createComponentCode } from "../../util";
-import { isNueComponent } from "../../../src/util/validate";
+import { isOtemComponent } from "../../../src/util/validate";
 
 const option = (value: Partial<Option>) => value;
 
@@ -17,25 +17,26 @@ const filenames = [
 
 const valid = ([] as RuleTester.ValidTestCase[]).concat(
   ...filenames.map<RuleTester.ValidTestCase[]>((filename) => {
-    const isNue = isNueComponent(filename);
+    const isOtem = isOtemComponent(filename);
+    const size = isOtem ? 7 : 12;
 
     return [
       {
         filename,
-        code: createComponentCode({ size: isNue ? 4 : 8 }),
+        code: createComponentCode({ size }),
       },
       {
         filename,
-        code: createComponentCode({ size: isNue ? 4 : 8, arrow: true }),
+        code: createComponentCode({ size, arrow: true }),
       },
       {
         filename,
-        code: createComponentCode({ size: 6, parentTagName: "fragment" }),
+        code: createComponentCode({ size: 11, parentTagName: "fragment" }),
       },
       {
         filename,
         code: createComponentCode({
-          size: isNue ? 4 : 8,
+          size,
           arrow: true,
           setBlock: (_, __, ele) => `(${ele})`,
         }),
@@ -43,7 +44,7 @@ const valid = ([] as RuleTester.ValidTestCase[]).concat(
       {
         filename,
         code: createComponentCode({
-          size: isNue ? 5 : 8,
+          size,
           setFields: () =>
             `const A = () => (<div><div /><div /><div /></div>);`,
         }),
@@ -51,7 +52,7 @@ const valid = ([] as RuleTester.ValidTestCase[]).concat(
       {
         filename,
         code: createComponentCode({
-          size: isNue ? 5 : 8,
+          size,
           arrow: true,
           setFields: () =>
             `const A = () => (<div><div /><div /><div /></div>);`,
@@ -68,18 +69,20 @@ const valid = ([] as RuleTester.ValidTestCase[]).concat(
 
 const invalid = ([] as RuleTester.InvalidTestCase[]).concat(
   ...filenames.map<RuleTester.InvalidTestCase[]>((filename) => {
-    if (!isNueComponent(filename)) return [];
+    if (!isOtemComponent(filename)) return [];
+
+    const size = 13;
 
     return [
       {
         filename,
         errors: [ErrorMessage],
-        code: createComponentCode({ size: 8 }),
+        code: createComponentCode({ size }),
       },
       {
         filename,
         errors: [ErrorMessage],
-        code: createComponentCode({ size: 8, arrow: true }),
+        code: createComponentCode({ size, arrow: true }),
       },
       {
         filename,
@@ -91,7 +94,7 @@ const invalid = ([] as RuleTester.InvalidTestCase[]).concat(
         filename,
         errors: [ErrorMessage],
         code: createComponentCode({
-          size: 8,
+          size,
           setReturnValue: (ele) => `bool ? ${ele} : null`,
         }),
       },
@@ -99,7 +102,7 @@ const invalid = ([] as RuleTester.InvalidTestCase[]).concat(
         filename,
         errors: [ErrorMessage],
         code: createComponentCode({
-          size: 8,
+          size,
           arrow: true,
           setReturnValue: (ele) => `bool ? ${ele} : null`,
         }),
@@ -108,7 +111,7 @@ const invalid = ([] as RuleTester.InvalidTestCase[]).concat(
         filename,
         errors: [ErrorMessage],
         code: createComponentCode({
-          size: 8,
+          size,
           arrow: true,
           setBlock: (_, __, ele) => `(${ele})`,
         }),
@@ -117,13 +120,13 @@ const invalid = ([] as RuleTester.InvalidTestCase[]).concat(
         filename,
         errors: ["error"],
         options: [option({ message: "error" })],
-        code: createComponentCode({ size: 8 }),
+        code: createComponentCode({ size }),
       },
       {
         filename,
         errors: ["error"],
         options: [option({ message: "error" })],
-        code: createComponentCode({ size: 8, arrow: true }),
+        code: createComponentCode({ size, arrow: true }),
       },
     ];
   })
@@ -139,7 +142,7 @@ const ruleTester = new RuleTester({
   },
 });
 
-ruleTester.run("nue-element-size", NueElementSize, {
+ruleTester.run("otem-element-size", OtemElementSize, {
   valid,
   invalid,
 });

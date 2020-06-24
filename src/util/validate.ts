@@ -4,6 +4,12 @@ export const isNueComponent = (filePath: string) => {
   return !!filePath.split("/").find((v: string) => v === "nues" || v === "nue");
 };
 
+export const isOtemComponent = (filePath: string) => {
+  return !!filePath
+    .split("/")
+    .find((v: string) => v === "otems" || v === "otem");
+};
+
 export const isHookFunction = (callExpression: CallExpression) => {
   const { callee } = callExpression;
 
