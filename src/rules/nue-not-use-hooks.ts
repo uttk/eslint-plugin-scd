@@ -1,7 +1,7 @@
 import { Rule } from "eslint";
 import { Node } from "estree-jsx";
 import { ErrorMessages } from "../util/errorMessages";
-import { isNueComponent, isUsingHooks, isComponent } from "../util/validate";
+import { isComponent, isHookFunction, isNueComponent } from "../util/validate";
 
 export const ErrorMessage = ErrorMessages["nue-not-use-hooks"];
 
@@ -18,14 +18,25 @@ export const NueNotUseHooks: Rule.RuleModule = {
       ...context.options[0],
     };
 
+    let currentComponent: Node | null = null;
+
     return {
       VariableDeclarator: (node: Node) => {
         if (
           node.type === "VariableDeclarator" &&
-          node.init?.type === "ArrowFunctionExpression" &&
-          node.init.body.type === "BlockStatement"
+          node.init?.type === "ArrowFunctionExpression"
         ) {
-          if (isUsingHooks(node.init.body) && isComponent(node.init.body)) {
+          currentComponent = isComponent(node.init.body) ? node : null;
+        }
+      },
+
+      "VariableDeclarator:exit": (node: Node) => {
+        currentComponent = null;
+      },
+
+      CallExpression: (node: Node) => {
+        if (node.type === "CallExpression" && isHookFunction(node)) {
+          if (currentComponent) {
             context.report({
               node,
               message: option.message,
@@ -36,13 +47,12 @@ export const NueNotUseHooks: Rule.RuleModule = {
 
       FunctionDeclaration: (node: Node) => {
         if (node.type === "FunctionDeclaration") {
-          if (isUsingHooks(node.body) && isComponent(node.body)) {
-            context.report({
-              node,
-              message: option.message,
-            });
-          }
+          currentComponent = isComponent(node.body) ? node : null;
         }
+      },
+
+      "FunctionDeclaration:exit": (node: Node) => {
+        currentComponent = null;
       },
     };
   },

@@ -1,4 +1,4 @@
-import { BlockStatement, CallExpression } from "estree-jsx";
+import { Node, BlockStatement, CallExpression } from "estree-jsx";
 
 export const isNueComponent = (filePath: string) => {
   return !!filePath.split("/").find((v: string) => v === "nues" || v === "nue");
@@ -37,8 +37,20 @@ export const isUsingHooks = (node: BlockStatement): boolean => {
   return false;
 };
 
-export const isComponent = (node: BlockStatement): boolean => {
-  const { body } = node;
+export const isComponent = (node: Node): boolean => {
+  if (node.type.match(/^JSX/)) return true;
+
+  switch (node.type) {
+    case "BlockStatement":
+      return SearchJSXFromBlock(node);
+
+    default:
+      return false;
+  }
+};
+
+export const SearchJSXFromBlock = (block: BlockStatement): boolean => {
+  const { body } = block;
 
   for (const childNode of body) {
     if (childNode.type === "ReturnStatement") {

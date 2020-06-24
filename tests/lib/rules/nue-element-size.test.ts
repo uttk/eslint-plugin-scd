@@ -32,6 +32,14 @@ const valid = ([] as RuleTester.ValidTestCase[]).concat(
         filename,
         code: createComponentCode({ size: 6, parentTagName: "fragment" }),
       },
+      {
+        filename,
+        code: createComponentCode({
+          size: isNue ? 4 : 8,
+          arrow: true,
+          setBlock: (_, __, ele) => `(${ele})`,
+        }),
+      },
     ];
   })
 );
@@ -72,6 +80,15 @@ const invalid = ([] as RuleTester.InvalidTestCase[]).concat(
           size: 8,
           arrow: true,
           setReturnValue: (ele) => `bool ? ${ele} : null`,
+        }),
+      },
+      {
+        filename,
+        errors: [ErrorMessage],
+        code: createComponentCode({
+          size: 8,
+          arrow: true,
+          setBlock: (_, __, ele) => `(${ele})`,
         }),
       },
       {
