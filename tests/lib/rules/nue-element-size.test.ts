@@ -17,17 +17,11 @@ const filenames = [
 
 const valid = ([] as RuleTester.ValidTestCase[]).concat(
   ...filenames.map<RuleTester.ValidTestCase[]>((filename) => {
-    const isNue = isNueComponent(filename);
+    const size = isNueComponent(filename) ? 5 : 8;
 
     return [
-      {
-        filename,
-        code: createComponentCode({ size: isNue ? 4 : 8 }),
-      },
-      {
-        filename,
-        code: createComponentCode({ size: isNue ? 4 : 8, arrow: true }),
-      },
+      { filename, code: createComponentCode({ size }) },
+      { filename, code: createComponentCode({ size, arrow: true }) },
       {
         filename,
         code: createComponentCode({ size: 6, parentTagName: "fragment" }),
@@ -35,7 +29,7 @@ const valid = ([] as RuleTester.ValidTestCase[]).concat(
       {
         filename,
         code: createComponentCode({
-          size: isNue ? 4 : 8,
+          size,
           arrow: true,
           setBlock: (_, __, ele) => `(${ele})`,
         }),
@@ -43,7 +37,7 @@ const valid = ([] as RuleTester.ValidTestCase[]).concat(
       {
         filename,
         code: createComponentCode({
-          size: isNue ? 5 : 8,
+          size,
           setFields: () =>
             `const A = () => (<div><div /><div /><div /></div>);`,
         }),
@@ -51,7 +45,7 @@ const valid = ([] as RuleTester.ValidTestCase[]).concat(
       {
         filename,
         code: createComponentCode({
-          size: isNue ? 5 : 8,
+          size,
           arrow: true,
           setFields: () =>
             `const A = () => (<div><div /><div /><div /></div>);`,
@@ -70,16 +64,18 @@ const invalid = ([] as RuleTester.InvalidTestCase[]).concat(
   ...filenames.map<RuleTester.InvalidTestCase[]>((filename) => {
     if (!isNueComponent(filename)) return [];
 
+    const size = 8;
+
     return [
       {
         filename,
         errors: [ErrorMessage],
-        code: createComponentCode({ size: 8 }),
+        code: createComponentCode({ size }),
       },
       {
         filename,
         errors: [ErrorMessage],
-        code: createComponentCode({ size: 8, arrow: true }),
+        code: createComponentCode({ size, arrow: true }),
       },
       {
         filename,
@@ -91,7 +87,7 @@ const invalid = ([] as RuleTester.InvalidTestCase[]).concat(
         filename,
         errors: [ErrorMessage],
         code: createComponentCode({
-          size: 8,
+          size,
           setReturnValue: (ele) => `bool ? ${ele} : null`,
         }),
       },
@@ -99,7 +95,7 @@ const invalid = ([] as RuleTester.InvalidTestCase[]).concat(
         filename,
         errors: [ErrorMessage],
         code: createComponentCode({
-          size: 8,
+          size,
           arrow: true,
           setReturnValue: (ele) => `bool ? ${ele} : null`,
         }),
@@ -108,7 +104,7 @@ const invalid = ([] as RuleTester.InvalidTestCase[]).concat(
         filename,
         errors: [ErrorMessage],
         code: createComponentCode({
-          size: 8,
+          size,
           arrow: true,
           setBlock: (_, __, ele) => `(${ele})`,
         }),
@@ -117,13 +113,13 @@ const invalid = ([] as RuleTester.InvalidTestCase[]).concat(
         filename,
         errors: ["error"],
         options: [option({ message: "error" })],
-        code: createComponentCode({ size: 8 }),
+        code: createComponentCode({ size }),
       },
       {
         filename,
         errors: ["error"],
         options: [option({ message: "error" })],
-        code: createComponentCode({ size: 8, arrow: true }),
+        code: createComponentCode({ size, arrow: true }),
       },
     ];
   })
