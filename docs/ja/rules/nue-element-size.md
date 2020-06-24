@@ -27,45 +27,76 @@ module.exports = {
 ## パスする例
 
 ```jsx
-function Nue() {
-  return <div>Any</div>;
-}
-
-const Nue = () => <div>Any</div>;
-
 const Nue = () => (
-  <div>
-    <p>Any</p>
-    <p>Any</p>
-    <p>Any</p>
+  <div clasName="1">
+    <ul className="2">
+      <li className="3"></li>
+    </ul>
   </div>
 );
+
+const Nue = () => {
+  return (
+    <div clasName="1">
+      <ul className="2">
+        <li className="3"></li>
+        <li className="4"></li>
+      </ul>
+    </div>
+  );
+};
+
+function Nue() {
+  return (
+    <div clasName="1">
+      <ul className="2">
+        <li className="3"></li>
+        <li className="4"></li>
+        <li className="5"></li>
+      </ul>
+    </div>
+  );
+}
 ```
 
 ## エラーになる例
 
 ```jsx
 const Nue = () => (
-  <div>
-    <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
+  <div className="1">
+    <ul className="2">
+      <li className="3"></li>
+      <li className="4"></li>
+      <li className="5"></li>
+      <li className="6"></li>
     </ul>
   </div>
 );
 
+const Nue = () => {
+  return (
+    <div className="1">
+      <ul className="2">
+        <li className="3"></li>
+        <li className="4"></li>
+        <li className="5"></li>
+        <li className="6"></li>
+        <li className="7"></li>
+      </ul>
+    </div>
+  );
+};
+
 function Nue() {
   return (
-    <div>
-      <ul>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
+    <div className="1">
+      <ul className="2">
+        <li className="3"></li>
+        <li className="4"></li>
+        <li className="5"></li>
+        <li className="6"></li>
+        <li className="7"></li>
+        <li className="8"></li>
       </ul>
     </div>
   );
