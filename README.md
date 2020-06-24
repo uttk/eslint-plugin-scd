@@ -1,3 +1,3 @@
-Support Languages : [en](README.md) | [ja](docs/ja/README.ja.md)
+Support Languages : [en](README.md) | [ja](docs/ja/README.md)
 
 # eslint-plugin-scd
