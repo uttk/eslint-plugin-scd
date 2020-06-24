@@ -18,9 +18,10 @@
     "specific-component-design"
   ],
   "scripts": {
+    "test": "jest",
     "clean": "rimraf lib",
     "build": "yarn clean && tsc",
-    "test": "jest"
+    "release": "yarn test && yarn build"
   },
   "devDependencies": {
     "@types/eslint": "^7.2.0",
