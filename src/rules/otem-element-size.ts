@@ -20,7 +20,7 @@ export const OtemElementSize: Rule.RuleModule = {
     const option: Option = {
       max: 10,
       min: 5,
-      message: "Otem component elements must be between 5 and 10",
+      message: ErrorMessage,
       ignoreFragmentTag: true,
       ...context.options[0],
     };

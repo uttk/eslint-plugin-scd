@@ -20,7 +20,7 @@ export const NueElementSize: Rule.RuleModule = {
     const option: Option = {
       max: 5,
       min: 0,
-      message: "Nue components must have no more than 5 elements",
+      message: ErrorMessage,
       ignoreFragmentTag: true,
       ...context.options[0],
     };
