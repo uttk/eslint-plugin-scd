@@ -30,7 +30,7 @@ export const NueNotUseHooks: Rule.RuleModule = {
         }
       },
 
-      "VariableDeclarator:exit": (node: Node) => {
+      "VariableDeclarator:exit": () => {
         currentComponent = null;
       },
 
@@ -51,7 +51,7 @@ export const NueNotUseHooks: Rule.RuleModule = {
         }
       },
 
-      "FunctionDeclaration:exit": (node: Node) => {
+      "FunctionDeclaration:exit": () => {
         currentComponent = null;
       },
     };

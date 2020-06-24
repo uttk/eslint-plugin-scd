@@ -4,7 +4,7 @@ import { isNueComponent, isComponent } from "../util/validate";
 import { ErrorMessages } from "../util/errorMessages";
 import { ComponentElementSizeCounter } from "../util/ComponentElementSizeCounter";
 
-export const ErrorMessage = ErrorMessages["nue-elements-size"];
+export const ErrorMessage = ErrorMessages["nue-element-size"];
 
 export interface Option {
   max: number;

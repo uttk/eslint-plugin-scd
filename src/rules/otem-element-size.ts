@@ -4,7 +4,7 @@ import { ErrorMessages } from "../util/errorMessages";
 import { isOtemComponent, isComponent } from "../util/validate";
 import { ComponentElementSizeCounter } from "../util/ComponentElementSizeCounter";
 
-export const ErrorMessage = ErrorMessages["nue-elements-size"];
+export const ErrorMessage = ErrorMessages["otem-element-size"];
 
 export interface Option {
   max: number;
