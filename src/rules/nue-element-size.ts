@@ -30,13 +30,13 @@ export const NueElementSize: Rule.RuleModule = {
     return {
       JSXOpeningFragment: (node: Node) => {
         if (node.type === "JSXOpeningFragment" && !option.ignoreFragmentTag) {
-          counter.check();
+          counter.count();
         }
       },
 
       JSXOpeningElement: (node: Node) => {
         if (node.type === "JSXOpeningElement") {
-          counter.check();
+          counter.count();
         }
       },
 
@@ -44,16 +44,27 @@ export const NueElementSize: Rule.RuleModule = {
         if (
           node.type === "VariableDeclarator" &&
           node.init?.type === "ArrowFunctionExpression" &&
-          node.init.body.type === "BlockStatement" &&
           isComponent(node.init.body)
         ) {
-          counter.init(node);
+          counter.start(node);
+        }
+      },
+
+      "VariableDeclarator:exit": (node: Node) => {
+        if (node.type === "VariableDeclarator") {
+          counter.close(node);
         }
       },
 
       FunctionDeclaration: (node: Node) => {
         if (node.type === "FunctionDeclaration" && isComponent(node.body)) {
-          counter.init(node);
+          counter.start(node);
+        }
+      },
+
+      "FunctionDeclaration:exit": (node: Node) => {
+        if (node.type === "FunctionDeclaration") {
+          counter.close(node);
         }
       },
     };

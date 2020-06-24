@@ -1,18 +1,22 @@
 import { Rule } from "eslint";
-import { Node } from "estree-jsx";
 import { Node as ESNode } from "estree";
+import { Node, VariableDeclarator, FunctionDeclaration } from "estree-jsx";
 
 interface Options {
   min?: number;
-  max: number;
+  max?: number;
   message: string;
   context: Rule.RuleContext;
 }
 
+interface CountLog {
+  error: boolean;
+  counter: number;
+  parentNode: ESNode;
+}
+
 export class ComponentElementSizeCounter {
-  private counter: number = 0;
-  private errorNode: Node | null = null;
-  private currentNode: Node | null = null;
+  private logs: Array<CountLog> = [];
 
   private options: Options;
 
@@ -20,34 +24,45 @@ export class ComponentElementSizeCounter {
     this.options = options;
   }
 
-  private isSizeOver(): boolean {
-    const { max, min = 0 } = this.options;
+  private isSizeOver(log: CountLog): boolean {
+    const { max = 0, min = 0 } = this.options;
 
-    this.counter += 1;
-
-    if (this.counter > max || this.counter < min) {
+    if (log.counter > max || log.counter < min) {
       return true;
     }
 
     return false;
   }
 
-  init(node: Node) {
-    this.counter = 0;
-    this.errorNode = null;
-    this.currentNode = node;
+  private report(log: CountLog) {
+    if (log.error || !this.isSizeOver(log)) return;
+
+    log.error = true;
+
+    this.options.context.report({
+      node: log.parentNode,
+      message: this.options.message,
+    });
   }
 
-  check() {
-    if (this.errorNode === this.currentNode) return;
+  count() {
+    const log = this.logs.slice(-1)[0];
 
-    if (this.currentNode && this.isSizeOver()) {
-      this.errorNode = this.currentNode;
-
-      this.options.context.report({
-        node: this.currentNode as ESNode,
-        message: this.options.message,
-      });
+    if (log) {
+      log.counter += 1;
+      this.report(log);
     }
+  }
+
+  close(node: VariableDeclarator | FunctionDeclaration) {
+    this.logs = this.logs.filter((v) => v.parentNode !== node);
+  }
+
+  start(node: VariableDeclarator | FunctionDeclaration) {
+    this.logs.push({
+      counter: 0,
+      error: false,
+      parentNode: node,
+    });
   }
 }
