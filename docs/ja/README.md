@@ -35,20 +35,19 @@ module.exports = {
 
 各ルールの機能やオプションについては、以下をご参照ください。
 
-|                    ルール名                     |                     ルールの解説                      |
-| :---------------------------------------------: | :---------------------------------------------------: |
-|  [nue-element-size](rules/nue-element-size.md)  |        Nue コンポーネントのサイズを判定します         |
-| [nue-not-use-hooks](rules/nue-not-use-hooks.md) | Nue コンポーネントで Hooks が使われているか判定します |
-| [otem-element-size](rules/otem-element-size.md) |        Otem コンポーネントのサイズを判定します        |
+| ルール名                                         | ルールの解説                                           |
+| :----------------------------------------------- | :----------------------------------------------------- |
+| [nue-element-size](rules/nue-element-size.md)    | Nue コンポーネントのサイズを判定します                 |
+| [nue-not-use-hooks](rules/nue-not-use-hooks.md)  | Nue コンポーネントで Hooks が使われているか判定します  |
+| [otem-element-size](rules/otem-element-size.md)  | Otem コンポーネントのサイズを判定します                |
+| [otem-not-use-hooks](rules/nue-not-use-hooks.md) | Otem コンポーネントで Hooks が使われているか判定します |
 
 ## 貢献
 
-このリポジトリにバグや機能の追加、質問などがありますか？
-
-ぜひ[このファイル参考](CONTRIBUTION.md)にして、私たちに貢献してください！
+このリポジトリにバグや機能の追加、質問などがありますか？それなら、ぜひ[このファイル参考](CONTRIBUTION.md)にして、貢献してください！
 
 あなたの小さな行動がみんなの大きな利益になります 😊
 
-## LICENSE
+## MIT LICENSE
 
 [MIT](LICENSE "LICENSE")
