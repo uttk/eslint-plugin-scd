@@ -16,7 +16,7 @@ module.exports = {
     "pafe-conditions": [
       "error",
       {
-        max: Number, // default : Infinity,
+        max: Number, // default : Infinity
         min: Number, // default : 10
         message: String, // default : "Pafe components must have Hooks or 10 or more elements."
         ignoreFragmentTag: Boolean, // default : true

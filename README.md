@@ -48,7 +48,7 @@ See below for the features and options of each rule.
 
 ## Contribution
 
-Do you have bugs, feature additions, questions, etc. in this repository? If so, please refer to this file and contribute!
+Do you have bugs, feature additions, questions, etc. in this repository? If so, please refer to [this file](docs/en/CONTRIBUTION.md) and contribute!
 
 ## MIT LICENSE
 

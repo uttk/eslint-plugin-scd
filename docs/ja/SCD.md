@@ -194,12 +194,9 @@ function BadExamplePafe() {
 
 ### Example
 
-**正しい Pafe コンポーネントの記述例**
+**正しい Page コンポーネントの記述例**
 
 ```tsx
-/* Page Component Example */
-
-// 正しい例
 export const GoodExamplePage = () => {
   const [state, setState] = useState(/* anything */);
 
@@ -211,7 +208,7 @@ export const GoodExamplePage = () => {
 };
 ```
 
-**悪い Pafe コンポーネントの記述例**
+**悪い Page コンポーネントの記述例**
 
 ```tsx
 // mainタグが無いので、ダメ
@@ -227,4 +224,4 @@ export const BadExamplePage = () => (
 `Module`は、上記のどれにも分類できない **例外的なコンポーネント** を分類します。<br />
 `Module`には明確な規約はありません。自由に設計できます。
 
-※ `Module`に分類するのは、どうしても他のモノに分類出来ない時です。なるべく`Nue`・`Otem`・`Pafe`・`Page`に分類できるようにしています。
+※ `Module`に分類するのは、どうしても他のモノに分類出来ない時です。なるべく`Nue`・`Otem`・`Pafe`・`Page`に分類できるようにして下さい。
