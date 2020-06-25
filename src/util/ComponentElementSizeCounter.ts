@@ -38,7 +38,7 @@ export class ComponentElementSizeCounter {
     });
   }
 
-  count() {
+  count(): void {
     const log = this.logs.slice(-1)[0];
 
     if (log) {
@@ -46,7 +46,7 @@ export class ComponentElementSizeCounter {
     }
   }
 
-  close(node: VariableDeclarator | FunctionDeclaration) {
+  close(node: VariableDeclarator | FunctionDeclaration): void {
     this.logs = this.logs.filter((log) => {
       if (log.parentNode === node) {
         this.report(log);
@@ -57,7 +57,7 @@ export class ComponentElementSizeCounter {
     });
   }
 
-  start(node: VariableDeclarator | FunctionDeclaration) {
+  start(node: VariableDeclarator | FunctionDeclaration): void {
     this.logs.push({
       counter: 0,
       error: false,
