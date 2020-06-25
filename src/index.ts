@@ -14,4 +14,25 @@ export = {
     "pafe-conditions": PafeConditions,
     "page-must-have-main-tag": PageMustHaveMainTag,
   },
+
+  configs: {
+    recommended: {
+      plugins: ["scd"],
+
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+
+      rules: {
+        "scd/nue-element-size": "error",
+        "scd/nue-not-use-hooks": "error",
+        "scd/otem-element-size": "error",
+        "scd/otem-not-use-hooks": "error",
+        "scd/pafe-conditions": "error",
+        "scd/page-must-have-main-tag": "error",
+      },
+    },
+  },
 };
