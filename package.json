@@ -6,14 +6,17 @@
   "license": "MIT",
   "private": true,
   "files": [
+    "lib",
+    "LICENSE",
     "README.md",
-    "package.json",
-    "lib"
+    "package.json"
   ],
   "keywords": [
     "scd",
     "SCD",
     "eslint",
+    "eslintplugin",
+    "eslint-plugin",
     "Specific Component Design",
     "specific-component-design"
   ],
