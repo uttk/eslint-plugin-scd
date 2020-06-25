@@ -35,13 +35,14 @@ module.exports = {
 
 各ルールの機能やオプションについては、以下をご参照ください。
 
-| ルール名                                         | ルールの解説                                                                     |
-| :----------------------------------------------- | :------------------------------------------------------------------------------- |
-| [nue-element-size](rules/nue-element-size.md)    | Nue コンポーネントのサイズを判定します                                           |
-| [nue-not-use-hooks](rules/nue-not-use-hooks.md)  | Nue コンポーネントで Hooks が使われているか判定します                            |
-| [otem-element-size](rules/otem-element-size.md)  | Otem コンポーネントのサイズを判定します                                          |
-| [otem-not-use-hooks](rules/nue-not-use-hooks.md) | Otem コンポーネントで Hooks が使われているか判定します                           |
-| [pafe-conditions](rules/pafe-conditions.md)      | Pafe コンポーネントの要素数が 10 個以上または、 Hooks が使われているか判定します |
+| ルール名                                                    | ルールの解説                                                                     |
+| :---------------------------------------------------------- | :------------------------------------------------------------------------------- |
+| [nue-element-size](rules/nue-element-size.md)               | Nue コンポーネントのサイズを判定します                                           |
+| [nue-not-use-hooks](rules/nue-not-use-hooks.md)             | Nue コンポーネントで Hooks が使われているか判定します                            |
+| [otem-element-size](rules/otem-element-size.md)             | Otem コンポーネントのサイズを判定します                                          |
+| [otem-not-use-hooks](rules/nue-not-use-hooks.md)            | Otem コンポーネントで Hooks が使われているか判定します                           |
+| [pafe-conditions](rules/pafe-conditions.md)                 | Pafe コンポーネントの要素数が 10 個以上または、 Hooks が使われているか判定します |
+| [page-must-have-main-tag](rules/page-must-have-main-tag.md) | Page コンポーネントが main タグを持っているか判定します。                        |
 
 ## 貢献
 
