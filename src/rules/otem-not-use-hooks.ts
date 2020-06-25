@@ -18,25 +18,28 @@ export const OtemNotUseHooks: Rule.RuleModule = {
       ...context.options[0],
     };
 
-    let currentComponent: Node | null = null;
+    let componentNodes: Array<Node> = [];
 
     return {
       VariableDeclarator: (node: Node) => {
         if (
           node.type === "VariableDeclarator" &&
-          node.init?.type === "ArrowFunctionExpression"
+          node.init?.type === "ArrowFunctionExpression" &&
+          isComponent(node.init.body)
         ) {
-          currentComponent = isComponent(node.init.body) ? node : null;
+          componentNodes.push(node);
         }
       },
 
-      "VariableDeclarator:exit": () => {
-        currentComponent = null;
+      "VariableDeclarator:exit": (node: Node) => {
+        componentNodes = componentNodes.filter((n) => n !== node);
       },
 
       CallExpression: (node: Node) => {
         if (node.type === "CallExpression" && isHookFunction(node)) {
-          if (currentComponent) {
+          const current = componentNodes.slice(-1)[0];
+
+          if (current) {
             context.report({
               node,
               message: option.message,
@@ -46,13 +49,13 @@ export const OtemNotUseHooks: Rule.RuleModule = {
       },
 
       FunctionDeclaration: (node: Node) => {
-        if (node.type === "FunctionDeclaration") {
-          currentComponent = isComponent(node.body) ? node : null;
+        if (node.type === "FunctionDeclaration" && isComponent(node.body)) {
+          componentNodes.push(node);
         }
       },
 
-      "FunctionDeclaration:exit": () => {
-        currentComponent = null;
+      "FunctionDeclaration:exit": (node: Node) => {
+        componentNodes = componentNodes.filter((n) => n !== node);
       },
     };
   },

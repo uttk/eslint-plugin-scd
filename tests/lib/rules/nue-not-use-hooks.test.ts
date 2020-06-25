@@ -109,6 +109,24 @@ const invalid = ([] as RuleTester.InvalidTestCase[]).concat(
         errors: [ErrorMessage],
         code: createComponentCode({
           size,
+          arrow: true,
+          setFields: () => "const useHooks = () => {}; useHooks();",
+        }),
+      },
+      {
+        filename,
+        errors: [ErrorMessage],
+        code: createComponentCode({
+          size,
+          setFields: () => "useHooks();",
+          setReturnValue: (ele) => `bool ? ${ele} : null`,
+        }),
+      },
+      {
+        filename,
+        errors: [ErrorMessage],
+        code: createComponentCode({
+          size,
           setFields: () => "useHooks();",
           setReturnValue: (ele) => `bool ? ${ele} : null`,
         }),
