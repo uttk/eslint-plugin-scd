@@ -16,6 +16,12 @@ export const isPafeComponent = (filePath: string): boolean => {
     .find((v: string) => v === "pafes" || v === "pafe");
 };
 
+export const isPageComponent = (filePath: string): boolean => {
+  return !!filePath
+    .split("/")
+    .find((v: string) => v === "pages" || v === "page");
+};
+
 export const isHookFunction = (callExpression: CallExpression): boolean => {
   const { callee } = callExpression;
 
