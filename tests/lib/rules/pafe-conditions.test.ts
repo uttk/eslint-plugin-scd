@@ -56,8 +56,21 @@ const valid = ([] as RuleTester.ValidTestCase[]).concat(
         filename,
         code: createComponentCode({
           size: 1,
+          setFields: () => `
+            const useHooks = () => {}; 
+            const test = useHooks();
+          `,
+        }),
+      },
+      {
+        filename,
+        code: createComponentCode({
+          size: 1,
           arrow: true,
-          setFields: () => "const test = useHooks();",
+          setFields: () => `
+            const useHooks = () => {}; 
+            const test = useHooks();
+          `,
         }),
       },
       {
