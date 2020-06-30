@@ -75,6 +75,21 @@ const valid = ([] as RuleTester.ValidTestCase[]).concat(
       },
       {
         filename,
+        code: createComponentCode({
+          size: 3,
+          setFields: () => `
+          const [state, setState] = useState(false);
+
+          useEffect(()=> {
+            const id = setTimeout(setState, 1000, false);
+
+            return () => clearTimeout(id)
+          },[state])
+        `,
+        }),
+      },
+      {
+        filename,
         options: [option({ ignoreFragmentTag: false })],
         code: createComponentCode({ size: 10, parentTagName: "fragment" }),
       },

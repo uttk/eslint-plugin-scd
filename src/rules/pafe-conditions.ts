@@ -25,11 +25,17 @@ export const PafeConditions: Rule.RuleModule = {
       ...context.options[0],
     };
 
-    let state: Array<{ node: Node; hasHooks: boolean }> = [];
+    let state: Array<{
+      node: Node;
+      hasHooks: boolean;
+      component: boolean;
+    }> = [];
     const counter = new ComponentElementSizeCounter({
       ...option,
       report: (descriptor) => {
-        state = state.filter(({ node, hasHooks }) => {
+        state = state.filter(({ node, hasHooks, component }) => {
+          if (!component) return false;
+
           if (node === descriptor.node && !hasHooks) {
             context.report(descriptor);
 
@@ -57,10 +63,11 @@ export const PafeConditions: Rule.RuleModule = {
         if (node.init?.type !== "ArrowFunctionExpression") return;
 
         counter.start(node);
-
-        if (isComponent(node.init.body)) {
-          state.push({ node, hasHooks: false });
-        }
+        state.push({
+          node,
+          hasHooks: false,
+          component: isComponent(node.init.body),
+        });
       },
 
       "VariableDeclarator:exit": (node: Node) => {
@@ -71,10 +78,11 @@ export const PafeConditions: Rule.RuleModule = {
         if (node.type !== "FunctionDeclaration") return;
 
         counter.start(node);
-
-        if (isComponent(node.body)) {
-          state.push({ node, hasHooks: false });
-        }
+        state.push({
+          node,
+          hasHooks: false,
+          component: isComponent(node.body),
+        });
       },
 
       "FunctionDeclaration:exit": (node: Node) => {
@@ -84,7 +92,7 @@ export const PafeConditions: Rule.RuleModule = {
       CallExpression: (node: Node) => {
         const item = state.slice(-1)[0];
 
-        if (!item) return;
+        if (!item || item.hasHooks) return;
 
         item.hasHooks = node.type === "CallExpression" && isHookFunction(node);
       },
